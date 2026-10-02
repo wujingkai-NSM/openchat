@@ -10,7 +10,6 @@ import {
   type Conversation,
   DEFAULT_TITLE,
 } from "@/lib/chat";
-import { fakeAssistantReply } from "@/lib/mock-assistant";
 
 export function ChatApp() {
   const [conversations, setConversations] = useState<Conversation[]>(() => [
@@ -58,6 +57,27 @@ export function ChatApp() {
     });
   }, []);
 
+  const appendToMessage = useCallback(
+    (conversationId: string, targetMessageId: string, delta: string) => {
+      setConversations((current) =>
+        current.map((conversation) =>
+          conversation.id === conversationId
+            ? {
+                ...conversation,
+                updatedAt: Date.now(),
+                messages: conversation.messages.map((message) =>
+                  message.id === targetMessageId
+                    ? { ...message, content: message.content + delta }
+                    : message
+                ),
+              }
+            : conversation
+        )
+      );
+    },
+    []
+  );
+
   const handleSend = useCallback(
     async (text: string) => {
       const content = text.trim();
@@ -68,6 +88,12 @@ export function ChatApp() {
         id: messageId(),
         role: "user" as const,
         content,
+        createdAt: Date.now(),
+      };
+      const assistantMessage = {
+        id: messageId(),
+        role: "assistant" as const,
+        content: "",
         createdAt: Date.now(),
       };
 
@@ -81,7 +107,11 @@ export function ChatApp() {
                   conversation.title === DEFAULT_TITLE
                     ? titleFromText(content)
                     : conversation.title,
-                messages: [...conversation.messages, userMessage],
+                messages: [
+                  ...conversation.messages,
+                  userMessage,
+                  assistantMessage,
+                ],
                 updatedAt: Date.now(),
               }
             : conversation
@@ -90,22 +120,37 @@ export function ChatApp() {
       setPendingIds((current) => new Set(current).add(targetId));
 
       try {
-        const reply = await fakeAssistantReply(content);
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: content }),
+        });
+        if (!response.ok || !response.body) {
+          throw new Error(`接口返回 ${response.status}`);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          appendToMessage(
+            targetId,
+            assistantMessage.id,
+            decoder.decode(value, { stream: true })
+          );
+        }
+      } catch {
         setConversations((current) =>
           current.map((conversation) =>
             conversation.id === targetId
               ? {
                   ...conversation,
-                  messages: [
-                    ...conversation.messages,
-                    {
-                      id: messageId(),
-                      role: "assistant" as const,
-                      content: reply,
-                      createdAt: Date.now(),
-                    },
-                  ],
-                  updatedAt: Date.now(),
+                  messages: conversation.messages.map((message) =>
+                    message.id === assistantMessage.id
+                      ? { ...message, content: "（请求失败，请稍后重试）" }
+                      : message
+                  ),
                 }
               : conversation
           )
@@ -118,7 +163,7 @@ export function ChatApp() {
         });
       }
     },
-    [active]
+    [active, appendToMessage]
   );
 
   return (

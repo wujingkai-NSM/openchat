@@ -17,12 +17,15 @@ export function ChatPanel({ conversation, pending, onSend }: ChatPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const lastMessageLength =
+    conversation.messages[conversation.messages.length - 1]?.content.length ?? 0;
+
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
       container.scrollTop = container.scrollHeight;
     }
-  }, [conversation.messages.length, pending, conversation.id]);
+  }, [lastMessageLength, pending, conversation.id]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -71,7 +74,9 @@ export function ChatPanel({ conversation, pending, onSend }: ChatPanelProps) {
           </div>
         ) : (
           <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-6">
-            {conversation.messages.map((message) => (
+            {conversation.messages
+              .filter((message) => !(message.role === "assistant" && !message.content))
+              .map((message) => (
               <div
                 key={message.id}
                 className={cn(
