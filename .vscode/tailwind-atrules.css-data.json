@@ -1,0 +1,58 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4: register design tokens (CSS variables) as theme options.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#theme-directive" }]
+    },
+    {
+      "name": "@source",
+      "description": "Tailwind CSS v4: declare an additional source path for class detection.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#source-directive" }]
+    },
+    {
+      "name": "@source-dependencies",
+      "description": "Tailwind CSS v4: declare watch dependencies for a source."
+    },
+    {
+      "name": "@source-base",
+      "description": "Tailwind CSS v4: set the base directory for inline source detection."
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS: inline the declarations of existing utility classes.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#apply-directive" }]
+    },
+    {
+      "name": "@variant",
+      "description": "Tailwind CSS v4: wrap utilities in a variant; supports the inline option.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#variant-directive" }]
+    },
+    {
+      "name": "@custom-variant",
+      "description": "Tailwind CSS v4: define a custom variant.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#custom-variant-directive" }]
+    },
+    {
+      "name": "@utility",
+      "description": "Tailwind CSS v4: define a custom utility.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#utility-directive" }]
+    },
+    {
+      "name": "@reference",
+      "description": "Tailwind CSS v4: load a stylesheet for IntelliSense only, without emitting CSS.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#reference-directive" }]
+    },
+    {
+      "name": "@plugin",
+      "description": "Tailwind CSS: load a plugin from CSS.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#plugin-directive" }]
+    },
+    {
+      "name": "@config",
+      "description": "Tailwind CSS v4: point at a JavaScript config file for compatibility.",
+      "references": [{ "name": "Tailwind CSS", "url": "https://tailwindcss.com/docs/functions-and-directives#config-directive" }]
+    }
+  ]
+}
