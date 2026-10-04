@@ -150,7 +150,7 @@ export function ChatPanel({ conversation, pending, onSend }: ChatPanelProps) {
             rows={1}
             placeholder="给 OpenChat 发送消息…（Enter 发送，Shift+Enter 换行）"
             aria-label="消息输入框"
-            className="max-h-[200px] min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-[15px] leading-6 outline-none placeholder:text-muted-foreground"
+            className="max-h-50 min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-[15px] leading-6 outline-none placeholder:text-muted-foreground"
           />
           <Button
             size="icon"

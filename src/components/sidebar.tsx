@@ -98,7 +98,7 @@ export function Sidebar({
                     <DropdownMenuTrigger
                       render={<Button variant="ghost" size="icon-xs" />}
                       aria-label={`${conversation.title} 更多操作`}
-                      className="me-1 opacity-0 group-hover:opacity-100 data-[popup-open]:opacity-100"
+                      className="me-1 opacity-0 group-hover:opacity-100 data-popup-open:opacity-100"
                     >
                       <MoreHorizontal />
                     </DropdownMenuTrigger>
