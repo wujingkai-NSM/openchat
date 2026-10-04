@@ -6,7 +6,7 @@ export function createChatModel() {
     throw new Error("DEEPSEEK_API_KEY is not set");
   }
   return new ChatOpenAI({
-    model: process.env.DEEPSEEK_MODEL ?? "deepseek-chat",
+    model: process.env.DEEPSEEK_MODEL || "deepseek-chat",
     apiKey,
     temperature: 0.7,
     configuration: {
